@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
+import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 public class WLTwitterLoginActivity extends Activity
         implements View.OnClickListener {
@@ -29,6 +30,16 @@ public class WLTwitterLoginActivity extends Activity
         // Keep a reference to the EditText
         mLoginEditText = (EditText) findViewById(R.id.loginEditText);
         mPasswordEditText = (EditText) findViewById(R.id.passwordEditText);
+
+        // Now add a listener when we click on the Login button
+        findViewById(R.id.loginButton).setOnClickListener(this);
+
+        final String storedLogin = PreferenceUtils.getLogin();
+        final String storedPassword = PreferenceUtils.getPassword();
+        if ((!TextUtils.isEmpty(storedLogin)) && (!TextUtils.isEmpty(storedPassword))) {
+            final Intent homeIntent = getHomeActivityIntent(storedLogin);
+            startActivity(homeIntent);
+        }
     }
 
     @Override
@@ -48,12 +59,23 @@ public class WLTwitterLoginActivity extends Activity
             return;
         }
 
-        Intent intent = new Intent(this, WLTwitterActivity.class);
-        final Bundle extras = new Bundle();
-        extras.putString(Constants.Login.EXTRA_LOGIN, mLoginEditText.getText().toString());
-        intent.putExtras(extras);
-        startActivity(intent);
+        // Before launching the second Activity, just save the values in SharedPreferences
+        PreferenceUtils.setLogin(mLoginEditText.getText().toString());
+        PreferenceUtils.setPassword(mPasswordEditText.getText().toString());
 
+        // Here we are, a login and password are set, try to login
+        // For now just launch the second activity, to do that create an Intent
+        final Intent homeIntent = getHomeActivityIntent(mLoginEditText.getText().toString());
+        startActivity(homeIntent);
+
+    }
+
+    private Intent getHomeActivityIntent(String userName) {
+        final Intent intent = new Intent(this, WLTwitterActivity.class);
+        final Bundle extras = new Bundle();
+        extras.putString(Constants.Login.EXTRA_LOGIN, userName);
+        intent.putExtras(extras);
+        return intent;
     }
 }
 
