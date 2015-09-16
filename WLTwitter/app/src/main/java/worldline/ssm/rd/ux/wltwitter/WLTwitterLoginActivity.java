@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
+
 public class WLTwitterLoginActivity extends Activity
         implements View.OnClickListener {
 
@@ -47,6 +49,9 @@ public class WLTwitterLoginActivity extends Activity
         }
 
         Intent intent = new Intent(this, WLTwitterActivity.class);
+        final Bundle extras = new Bundle();
+        extras.putString(Constants.Login.EXTRA_LOGIN, mLoginEditText.getText().toString());
+        intent.putExtras(extras);
         startActivity(intent);
 
     }

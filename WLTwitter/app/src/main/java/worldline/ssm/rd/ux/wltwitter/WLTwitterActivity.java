@@ -1,9 +1,12 @@
 package worldline.ssm.rd.ux.wltwitter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 
 
 public class WLTwitterActivity extends Activity {
@@ -12,6 +15,19 @@ public class WLTwitterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Retrieve the login passed as parameter
+        final Intent intent = getIntent();
+        if (null != intent){
+            final Bundle extras = intent.getExtras();
+            if ((null != extras) && (extras.containsKey(Constants.Login.EXTRA_LOGIN))){
+                // Retrieve the login
+                final String login = extras.getString(Constants.Login.EXTRA_LOGIN);
+
+                // Set as ActionBar subtitle
+                getActionBar().setSubtitle(login);
+            }
+        }
     }
 
 
