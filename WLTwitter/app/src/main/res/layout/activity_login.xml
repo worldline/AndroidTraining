@@ -44,7 +44,8 @@
             android:singleLine="true"
             android:background="@drawable/white_round_corners_background"
             android:layout_marginTop="10dp"
-            android:textColor="@drawable/blue_white_text_selector"/>
+            android:textColor="@drawable/blue_white_text_selector"
+            android:onClick="onClick" />
 
     </RelativeLayout>
 
