@@ -2,6 +2,7 @@ package worldline.ssm.rd.ux.wltwitter;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,6 +45,9 @@ public class WLTwitterLoginActivity extends Activity
             Toast.makeText(this, R.string.error_no_password, Toast.LENGTH_LONG).show();
             return;
         }
+
+        Intent intent = new Intent(this, WLTwitterActivity.class);
+        startActivity(intent);
 
     }
 }
