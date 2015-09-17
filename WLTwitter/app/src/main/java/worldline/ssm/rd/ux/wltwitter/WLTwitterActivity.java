@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
+import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 
 public class WLTwitterActivity extends Activity {
@@ -34,7 +35,7 @@ public class WLTwitterActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.wltwitter, menu);
         return true;
     }
 
@@ -45,8 +46,14 @@ public class WLTwitterActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionLogout) {
+            // Erase login and password in Preferences
+            PreferenceUtils.setLogin(null);
+            PreferenceUtils.setPassword(null);
+
+            // Finish this activity, and go back to LoginActivity
+            finish();
+
             return true;
         }
 
