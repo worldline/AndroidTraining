@@ -6,6 +6,7 @@ import worldline.ssm.rd.ux.wltwitter.WLTwitterActivity;
 import worldline.ssm.rd.ux.wltwitter.helpers.TwitterHelper;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class RetrieveTweetsAsyncTask extends AsyncTask<String, Void, List<Tweet>>{
 
@@ -25,7 +26,7 @@ public class RetrieveTweetsAsyncTask extends AsyncTask<String, Void, List<Tweet>
 	protected void onPostExecute(List<Tweet> result) {
 		if (null != result){
             for (int i=0;i<result.size();i++)
-                 System.out.println(WLTwitterActivity.class.getName()+ result.get(i).text);
+				Log.d(WLTwitterActivity.class.getName(), result.get(i).text);
 		}
 	}
 	
