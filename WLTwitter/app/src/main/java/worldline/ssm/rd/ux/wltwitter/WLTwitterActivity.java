@@ -19,7 +19,7 @@ public class WLTwitterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_wltwitter);
 
         // Retrieve the login passed as parameter
         final Intent intent = getIntent();
