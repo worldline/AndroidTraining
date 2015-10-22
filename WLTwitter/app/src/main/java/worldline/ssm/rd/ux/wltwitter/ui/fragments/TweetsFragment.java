@@ -55,5 +55,17 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
     public void onTweetRetrieved(List<Tweet> tweets) {
         for (int i=0;i<tweets.size();i++)
             Log.d(WLTwitterActivity.class.getName(), tweets.get(i).text);
+        // Set our asynctask to null
+        mTweetAsyncTask = null;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // If we have an AsyncTask running, close it
+        if (null != mTweetAsyncTask){
+            mTweetAsyncTask.cancel(true);
+        }
     }
 }
