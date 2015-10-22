@@ -4,15 +4,17 @@ import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.WLTwitterActivity;
 import worldline.ssm.rd.ux.wltwitter.helpers.TwitterHelper;
+import worldline.ssm.rd.ux.wltwitter.interfaces.TweetChangeListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class RetrieveTweetsAsyncTask extends AsyncTask<String, Void, List<Tweet>>{
 
+	// A reference to the listener
+	private TweetChangeListener mListener;
 
-	public RetrieveTweetsAsyncTask(){
-	}
+	public RetrieveTweetsAsyncTask(TweetChangeListener listener){ mListener = listener; }
 	
 	@Override
 	protected List<Tweet> doInBackground(String... params) {
@@ -24,9 +26,8 @@ public class RetrieveTweetsAsyncTask extends AsyncTask<String, Void, List<Tweet>
 
 	@Override
 	protected void onPostExecute(List<Tweet> result) {
-		if (null != result){
-            for (int i=0;i<result.size();i++)
-				Log.d(WLTwitterActivity.class.getName(), result.get(i).text);
+		if (null !=mListener && null != result){
+			mListener.onTweetRetrieved(result);
 		}
 	}
 	
