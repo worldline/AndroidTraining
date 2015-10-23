@@ -1,16 +1,20 @@
 package worldline.ssm.rd.ux.wltwitter.ui.fragments;
 
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.R;
@@ -44,6 +48,21 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
 
         // Get the ListView
         mListView = (ListView) rootView.findViewById(R.id.tweetsListView);
+
+        // Set a Progress Bar as empty view, and display it (set adapter with no elements))
+        final ProgressBar progressBar = new ProgressBar(getActivity());
+        progressBar.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                                                               ActionBar.LayoutParams.WRAP_CONTENT,
+                                                               Gravity.CENTER));
+        progressBar.setIndeterminate(true);
+        mListView.setEmptyView(progressBar);
+
+        // Add the view in our content view
+        ViewGroup root = (ViewGroup) rootView.findViewById(R.id.tweetsRootRelativeLayout);
+        root.addView(progressBar);
+
+        // Set adapter with no elements to let the ListView display the empty view
+        mListView.setAdapter(new ArrayAdapter<Tweet>(getActivity(), android.R.layout.simple_list_item_1, new ArrayList<Tweet>()));
 
         return rootView;
     }
