@@ -2,6 +2,7 @@ package worldline.ssm.rd.ux.wltwitter.ui.fragments;
 
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterActivity;
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetChangeListener;
+import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
@@ -34,6 +36,9 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
 
     // Keep a reference to the ListView
     private ListView mListView;
+
+    // Keep a reference to our Activiyt (implementing TweetListener)
+    private TweetListener mListener;
 
     public TweetsFragment() {
         // Required empty public constructor
@@ -67,6 +72,14 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
         return rootView;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity instanceof TweetListener){
+            mListener = (TweetListener) activity;
+        }
+    }
 
     @Override
     public void onStart() {
