@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -62,8 +63,10 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
 
     @Override
     public void onTweetRetrieved(List<Tweet> tweets) {
-        for (int i=0;i<tweets.size();i++)
-            Log.d(WLTwitterActivity.class.getName(), tweets.get(i).text);
+        // Set the adapter
+        final ArrayAdapter<Tweet> adapter = new ArrayAdapter<Tweet>(getActivity(), android.R.layout.simple_list_item_1, tweets);
+        mListView.setAdapter(adapter);
+
         // Set our asynctask to null
         mTweetAsyncTask = null;
     }
