@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -26,6 +27,9 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
     // Keep a reference to the AsyncTask
     private RetrieveTweetsAsyncTask mTweetAsyncTask;
 
+    // Keep a reference to the ListView
+    private ListView mListView;
+
     public TweetsFragment() {
         // Required empty public constructor
     }
@@ -35,7 +39,12 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wltwitter, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_wltwitter, container, false);
+
+        // Get the ListView
+        mListView = (ListView) rootView.findViewById(R.id.tweetsListView);
+
+        return rootView;
     }
 
 
