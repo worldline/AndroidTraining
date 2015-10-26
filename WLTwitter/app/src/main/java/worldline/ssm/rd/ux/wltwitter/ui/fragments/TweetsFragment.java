@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -29,7 +30,7 @@ import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TweetsFragment extends Fragment implements TweetChangeListener {
+public class TweetsFragment extends Fragment implements TweetChangeListener, AdapterView.OnItemClickListener {
 
     // Keep a reference to the AsyncTask
     private RetrieveTweetsAsyncTask mTweetAsyncTask;
@@ -68,6 +69,9 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
 
         // Set adapter with no elements to let the ListView display the empty view
         mListView.setAdapter(new ArrayAdapter<Tweet>(getActivity(), android.R.layout.simple_list_item_1, new ArrayList<Tweet>()));
+
+        // Add a listener when an item is clicked
+        mListView.setOnItemClickListener(this);
 
         return rootView;
     }
@@ -110,6 +114,14 @@ public class TweetsFragment extends Fragment implements TweetChangeListener {
         // If we have an AsyncTask running, close it
         if (null != mTweetAsyncTask){
             mTweetAsyncTask.cancel(true);
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+        if (null != mListener){
+            final Tweet tweet = (Tweet) adapter.getItemAtPosition(position);
+            mListener.onViewTweet(tweet);
         }
     }
 }
