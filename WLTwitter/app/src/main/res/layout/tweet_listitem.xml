@@ -19,4 +19,24 @@
         android:src="@drawable/twitter_bird"
         android:contentDescription="@string/app_name" />
 
+    <TextView
+        android:id="@+id/tweetListItemAliasTextView"
+        android:layout_width="@dimen/tweet_list_item_alias_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tweetListItemImageView"
+        android:layout_marginLeft="@dimen/tweet_list_item_margin_between_views"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tweetListItemNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tweetListItemImageView"
+        android:layout_toLeftOf="@+id/tweetListItemAliasTextView"
+        android:layout_toRightOf="@+id/tweetListItemImageView"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
 </RelativeLayout>
