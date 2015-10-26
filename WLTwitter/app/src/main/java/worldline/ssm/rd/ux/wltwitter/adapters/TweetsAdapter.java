@@ -11,6 +11,12 @@ import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
 public class TweetsAdapter extends BaseAdapter {
 
+    // The list of items to display
+    private final List<Tweet> mTweets;
+
+    public TweetsAdapter(List<Tweet> tweets) {
+        mTweets = tweets;
+    }
 
     @Override
     public int getCount() {
