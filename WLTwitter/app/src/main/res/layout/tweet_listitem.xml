@@ -7,4 +7,16 @@
     android:padding="@dimen/tweet_list_item_padding"
     >
 
+    <ImageView
+        android:id="@+id/tweetListItemImageView"
+        android:layout_width="@dimen/tweet_list_item_image_size"
+        android:layout_height="@dimen/tweet_list_item_image_size"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/tweet_list_item_margin_between_views"
+        android:layout_marginRight="@dimen/tweet_list_item_margin_between_views"
+        android:background="#FFFFFFFF"
+        android:src="@drawable/twitter_bird"
+        android:contentDescription="@string/app_name" />
+
 </RelativeLayout>
