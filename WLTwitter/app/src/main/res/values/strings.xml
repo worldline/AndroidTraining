@@ -14,4 +14,15 @@
     <string name="error_no_login">Empty login !</string>
     <string name="error_no_password">Empty password !</string>
     <string name="action_settings">Title!</string>
+
+    <!-- TWEET LIST ITEM -->
+    <string name="tweet_list_item_button_text">RT</string>
+
+    <!-- TWEET -->
+    <string name="tweet_reply">reply</string>
+    <string name="tweet_retweet">retweet</string>
+    <string name="tweet_star">star</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
