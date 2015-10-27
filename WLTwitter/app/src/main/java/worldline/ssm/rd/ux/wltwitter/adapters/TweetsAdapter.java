@@ -14,6 +14,7 @@ import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
+import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
 public class TweetsAdapter extends BaseAdapter {
@@ -24,9 +25,16 @@ public class TweetsAdapter extends BaseAdapter {
     // The Layout inflater
     private final LayoutInflater mInflater;
 
+    // The listener for events
+    private TweetListener mListener;
+
     public TweetsAdapter(List<Tweet> tweets) {
         mTweets = tweets;
         mInflater = LayoutInflater.from(WLTwitterApplication.getContext());
+    }
+
+    public void setTweetListener(TweetListener listener){
+        mListener = listener;
     }
 
     @Override
