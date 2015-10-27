@@ -102,6 +102,7 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
     public void onTweetRetrieved(List<Tweet> tweets) {
         // Set the adapter
         final TweetsAdapter adapter = new TweetsAdapter(tweets);
+        adapter.setTweetListener(mListener);
         mListView.setAdapter(adapter);
         // Set our asynctask to null
         mTweetAsyncTask = null;
