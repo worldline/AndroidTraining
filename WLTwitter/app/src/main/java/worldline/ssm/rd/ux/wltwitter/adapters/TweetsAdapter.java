@@ -17,7 +17,7 @@ import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
-public class TweetsAdapter extends BaseAdapter {
+public class TweetsAdapter extends BaseAdapter implements View.OnClickListener {
 
     // The list of items to display
     private final List<Tweet> mTweets;
@@ -157,7 +157,24 @@ public class TweetsAdapter extends BaseAdapter {
         // Set the text
         holder.text.setText(tweet.text);
 
+        // Register a listener to handle the click on the button
+        // And keep track of the position in the tag of the button
+        holder.button.setTag(position);
+        holder.button.setOnClickListener(this);
+
         return convertView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (Integer) v.getTag();
+
+        // If we have a listener set, call the retweet method
+        if (null != mListener){
+            final Tweet tweet = (Tweet) getItem(position);
+            mListener.onRetweet(tweet);
+        }
+
     }
 
     private class ViewHolder {
