@@ -15,6 +15,7 @@ import java.util.List;
 import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.async.DownloadImageAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.components.ImageMemoryCache;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
@@ -29,9 +30,17 @@ public class TweetsAdapter extends BaseAdapter implements View.OnClickListener {
     // The listener for events
     private TweetListener mListener;
 
+    // The cache for images
+    private final ImageMemoryCache mImageMemoryCache;
+
     public TweetsAdapter(List<Tweet> tweets) {
         mTweets = tweets;
         mInflater = LayoutInflater.from(WLTwitterApplication.getContext());
+
+        // Instantiate our cache
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 16;
+        mImageMemoryCache = new ImageMemoryCache(cacheSize);
     }
 
     public void setTweetListener(TweetListener listener){
@@ -163,7 +172,13 @@ public class TweetsAdapter extends BaseAdapter implements View.OnClickListener {
         holder.button.setTag(position);
         holder.button.setOnClickListener(this);
 
-        new DownloadImageAsyncTask(holder.image).execute(tweet.user.profileImageUrl);
+        // Display the images
+        final Bitmap image = mImageMemoryCache.getBitmapFromMemCache(tweet.user.profileImageUrl);
+        if (null == image){
+            new DownloadImageAsyncTask(holder.image, mImageMemoryCache).execute(tweet.user.profileImageUrl);
+        } else {
+            holder.image.setImageBitmap(image);
+        }
 
         return convertView;
     }
