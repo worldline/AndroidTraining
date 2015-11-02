@@ -14,6 +14,7 @@ import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
+import worldline.ssm.rd.ux.wltwitter.async.DownloadImageAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
@@ -161,6 +162,8 @@ public class TweetsAdapter extends BaseAdapter implements View.OnClickListener {
         // And keep track of the position in the tag of the button
         holder.button.setTag(position);
         holder.button.setOnClickListener(this);
+
+        new DownloadImageAsyncTask(holder.image).execute(tweet.user.profileImageUrl);
 
         return convertView;
     }
