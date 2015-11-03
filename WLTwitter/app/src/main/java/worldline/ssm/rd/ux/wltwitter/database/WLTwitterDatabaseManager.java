@@ -15,6 +15,41 @@ import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 
 public class WLTwitterDatabaseManager {
 
+	public static Tweet tweetFromCursor(Cursor c){
+		if (null != c){
+			final Tweet tweet = new Tweet();
+			tweet.user = new TwitterUser();
+
+			// Retrieve the date created
+			if (c.getColumnIndex(WLTwitterDatabaseContract.DATE_CREATED) >= 0){
+				tweet.dateCreated = c.getString(c.getColumnIndex(WLTwitterDatabaseContract.DATE_CREATED));
+			}
+
+			// Retrieve the user name
+			if (c.getColumnIndex(WLTwitterDatabaseContract.USER_NAME) >= 0){
+				tweet.user.name = c.getString(c.getColumnIndex(WLTwitterDatabaseContract.USER_NAME));
+			}
+
+			// Retrieve the user alias
+			if (c.getColumnIndex(WLTwitterDatabaseContract.USER_ALIAS) >= 0){
+				tweet.user.screenName = c.getString(c.getColumnIndex(WLTwitterDatabaseContract.USER_ALIAS));
+			}
+
+			// Retrieve the user image url
+			if (c.getColumnIndex(WLTwitterDatabaseContract.USER_IMAGE_URL) >= 0){
+				tweet.user.profileImageUrl = c.getString(c.getColumnIndex(WLTwitterDatabaseContract.USER_IMAGE_URL));
+			}
+
+			// Retrieve the text of the tweet
+			if (c.getColumnIndex(WLTwitterDatabaseContract.TEXT) >= 0){
+				tweet.text = c.getString(c.getColumnIndex(WLTwitterDatabaseContract.TEXT));
+			}
+
+			return tweet;
+		}
+		return null;
+	}
+
 	public static ContentValues tweetToContentValues(Tweet tweet){
 		final ContentValues values = new ContentValues();
 
@@ -59,6 +94,19 @@ public class WLTwitterDatabaseManager {
 			Log.w(Constants.General.LOG_TAG, "Tweet stored");
 			Log.w(Constants.General.LOG_TAG, tweet.toString());
 			Log.w(Constants.General.LOG_TAG, "----------------------");
+		}
+
+		// Now that all values are stored in database, read them and log
+		final Cursor cursor = db.query(WLTwitterDatabaseContract.TABLE_TWEETS,
+				WLTwitterDatabaseContract.PROJECTION_FULL,
+				null, null, null, null, null);
+		if (null != cursor){
+			while (cursor.moveToNext()){
+				final Tweet tweet = tweetFromCursor(cursor);
+				Log.i(Constants.General.LOG_TAG, "Stored tweet");
+				Log.i(Constants.General.LOG_TAG, tweet.toString());
+				Log.i(Constants.General.LOG_TAG, "----------------------");
+			}
 		}
 	}
 
