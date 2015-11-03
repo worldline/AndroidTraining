@@ -27,7 +27,17 @@ public class WLTwitterDatabaseContract implements BaseColumns {
 			USER_IMAGE_URL + " TEXT NOT NULL)";
 
 	public static final String TABLE_TWEETS_CREATE_SCRIPT = TABLE_GENERIC_CREATE_SCRIPT_PREFIX +
-			TABLE_TWEETS + TABLE_IMAGES_CREATE_SCRIPT_SUFFIX; 
+			TABLE_TWEETS + TABLE_IMAGES_CREATE_SCRIPT_SUFFIX;
 
+	// The projections
+	public static final String[] PROJECTION_FULL = new String[]{
+			_ID,
+			DATE_CREATED,
+			DATE_CREATED_TIMESTAMP,
+			TEXT,
+			USER_NAME,
+			USER_ALIAS,
+			USER_IMAGE_URL
+	};
 	
 }
