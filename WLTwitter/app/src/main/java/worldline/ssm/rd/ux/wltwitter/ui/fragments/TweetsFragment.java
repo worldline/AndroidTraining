@@ -23,6 +23,7 @@ import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterActivity;
 import worldline.ssm.rd.ux.wltwitter.adapters.TweetsAdapter;
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetChangeListener;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
@@ -106,6 +107,8 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
         mListView.setAdapter(adapter);
         // Set our asynctask to null
         mTweetAsyncTask = null;
+
+        WLTwitterDatabaseManager.testDatabase(tweets);
     }
 
     @Override
