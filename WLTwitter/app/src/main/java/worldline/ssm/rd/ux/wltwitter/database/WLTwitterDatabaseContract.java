@@ -39,5 +39,10 @@ public class WLTwitterDatabaseContract implements BaseColumns {
 			USER_ALIAS,
 			USER_IMAGE_URL
 	};
+
+	// Content Provider stuff
+	public static final String CONTENT_PROVIDER_TWEETS_AUTHORITY = "worldline.ssm.rd.ux.TweetAuthority";
+	public static final Uri TWEETS_URI = Uri.parse("content://" + CONTENT_PROVIDER_TWEETS_AUTHORITY + "/" + TABLE_TWEETS);
+	public static final String TWEETS_CONTENT_TYPE = "vnd.android.cursor.dir/vnd.wltwitter.tweets";
 	
 }
