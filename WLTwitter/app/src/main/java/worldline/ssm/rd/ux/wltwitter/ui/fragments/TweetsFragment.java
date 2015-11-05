@@ -108,7 +108,7 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
         // Set our asynctask to null
         mTweetAsyncTask = null;
 
-        WLTwitterDatabaseManager.testDatabase(tweets);
+        WLTwitterDatabaseManager.testContentProvider();
     }
 
     @Override

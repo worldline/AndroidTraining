@@ -110,4 +110,23 @@ public class WLTwitterDatabaseManager {
 		}
 	}
 
+	public static void testContentProvider(){
+		// Test the query
+		WLTwitterApplication.getContext().getContentResolver().query(
+				WLTwitterDatabaseContract.TWEETS_URI, WLTwitterDatabaseContract.PROJECTION_FULL,
+				null, null, null);
+
+		// Test the insert
+		WLTwitterApplication.getContext().getContentResolver().insert(
+				WLTwitterDatabaseContract.TWEETS_URI, null);
+
+		// Test the update
+		WLTwitterApplication.getContext().getContentResolver().update(
+				WLTwitterDatabaseContract.TWEETS_URI, null, null, null);
+
+		// Test the delete
+		WLTwitterApplication.getContext().getContentResolver().delete(
+				WLTwitterDatabaseContract.TWEETS_URI, null, null);
+	}
+
 }

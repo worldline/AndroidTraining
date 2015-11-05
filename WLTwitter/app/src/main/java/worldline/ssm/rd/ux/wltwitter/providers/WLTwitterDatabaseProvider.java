@@ -7,9 +7,11 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseContract;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseHelper;
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 
 public class WLTwitterDatabaseProvider extends ContentProvider{
 
@@ -34,28 +36,35 @@ public class WLTwitterDatabaseProvider extends ContentProvider{
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        Log.e(Constants.General.LOG_TAG, "QUERY");
         return null;
     }
 
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        if (mUriMatcher.match(uri) == TWEET_CORRECT_URI_CODE){
+            return WLTwitterDatabaseContract.TWEETS_CONTENT_TYPE;
+        }
+        throw new IllegalArgumentException("Unknown URI " + uri);
     }
 
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        Log.e(Constants.General.LOG_TAG, "INSERT");
         return null;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        Log.e(Constants.General.LOG_TAG, "DELETE");
         return 0;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Log.e(Constants.General.LOG_TAG, "UPDATE");
         return 0;
     }
 }
