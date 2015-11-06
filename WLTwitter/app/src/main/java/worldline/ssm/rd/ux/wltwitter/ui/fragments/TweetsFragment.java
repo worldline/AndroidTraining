@@ -3,6 +3,10 @@ package worldline.ssm.rd.ux.wltwitter.ui.fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
@@ -21,8 +25,10 @@ import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterActivity;
+import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.adapters.TweetsAdapter;
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseContract;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetChangeListener;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
@@ -32,7 +38,7 @@ import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TweetsFragment extends Fragment implements TweetChangeListener, AdapterView.OnItemClickListener {
+public class TweetsFragment extends Fragment implements TweetChangeListener, AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     // Keep a reference to the AsyncTask
     private RetrieveTweetsAsyncTask mTweetAsyncTask;
@@ -97,6 +103,9 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
             mTweetAsyncTask = new RetrieveTweetsAsyncTask(this);
             mTweetAsyncTask.execute(login);
         }
+
+        //Load data using CursorLoader
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -108,7 +117,6 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
         // Set our asynctask to null
         mTweetAsyncTask = null;
 
-        WLTwitterDatabaseManager.testContentProvider();
     }
 
     @Override
@@ -127,5 +135,35 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
             final Tweet tweet = (Tweet) adapter.getItemAtPosition(position);
             mListener.onViewTweet(tweet);
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        final CursorLoader cursorLoader = new CursorLoader(WLTwitterApplication.getContext());
+        cursorLoader.setUri(WLTwitterDatabaseContract.TWEETS_URI);
+        cursorLoader.setProjection(WLTwitterDatabaseContract.PROJECTION_FULL);
+        cursorLoader.setSelection(null);
+        cursorLoader.setSelectionArgs(null);
+        cursorLoader.setSortOrder(null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null) {
+           while (data.moveToNext())  {
+                final Tweet tweet = WLTwitterDatabaseManager.tweetFromCursor(data);
+                Log.d("TweetsFragment", tweet.toString());
+            }
+
+            if (!data.isClosed()) {
+                data.close();
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }
