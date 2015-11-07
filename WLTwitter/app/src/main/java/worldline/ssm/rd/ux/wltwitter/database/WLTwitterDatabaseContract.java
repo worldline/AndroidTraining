@@ -40,6 +40,15 @@ public class WLTwitterDatabaseContract implements BaseColumns {
 			USER_IMAGE_URL
 	};
 
+	// Selections
+	public static final String SELECTION_BY_ID = _ID + "=?";
+	public static final String SELECTION_BY_CREATION_DATE = DATE_CREATED + "=?";
+	public static final String SELECTION_BY_CREATION_DATE_TIMESTAMP = DATE_CREATED_TIMESTAMP + "=?";
+	public static final String SELECTION_BY_USER_NAME = USER_NAME + "=?";
+
+	// Sort order
+	public static final String ORDER_BY_DATE_CREATED_TIMESTAMP_DESCENDING = DATE_CREATED_TIMESTAMP + " DESC";
+
 	// Content Provider stuff
 	public static final String CONTENT_PROVIDER_TWEETS_AUTHORITY = "worldline.ssm.rd.ux.TweetAuthority";
 	public static final Uri TWEETS_URI = Uri.parse("content://" + CONTENT_PROVIDER_TWEETS_AUTHORITY + "/" + TABLE_TWEETS);

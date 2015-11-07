@@ -5,6 +5,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -36,7 +37,17 @@ public class WLTwitterDatabaseProvider extends ContentProvider{
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Log.e(Constants.General.LOG_TAG, "QUERY");
+        Log.i(Constants.General.LOG_TAG, "QUERY");
+        if (mUriMatcher.match(uri) == TWEET_CORRECT_URI_CODE){
+            try {
+                SQLiteDatabase db = mDBHelper.getReadableDatabase();
+                Cursor c = db.query(WLTwitterDatabaseContract.TABLE_TWEETS, projection, selection, selectionArgs, null, null, WLTwitterDatabaseContract.ORDER_BY_DATE_CREATED_TIMESTAMP_DESCENDING);
+                //c.setNotificationUri(getContext().getContentResolver(), uri);
+                return c;
+            } catch (Exception e){
+                return null;
+            }
+        }
         return null;
     }
 
