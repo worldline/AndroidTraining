@@ -5,8 +5,14 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.util.List;
+
+import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.components.ImageMemoryCache;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
@@ -36,8 +42,29 @@ public class TweetsCursorAdapter extends CursorAdapter{
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return null;
+    public View newView(Context context, Cursor cursor, ViewGroup container) {
+        final View view = LayoutInflater.from(context).inflate(R.layout.tweet_listitem, null);
+        // Instantiate the ViewHolder
+        final ViewHolder holder = new ViewHolder(view);
+        // Set as tag to the convertView to retrieve it easily
+        view.setTag(holder);
+        return view;
+    }
+
+    public class ViewHolder {
+        public ImageView image;
+        public TextView name;
+        public TextView alias;
+        public TextView text;
+        public Button button;
+
+        public ViewHolder(View view){
+            image = (ImageView) view.findViewById(R.id.tweetListItemImageView);
+            name = (TextView) view.findViewById(R.id.tweetListItemNameTextView);
+            alias = (TextView) view.findViewById(R.id.tweetListItemAliasTextView);
+            text = (TextView) view.findViewById(R.id.tweetListItemTweetTextView);
+            button = (Button) view.findViewById(R.id.tweetListItemButton);
+        }
     }
 
     @Override
