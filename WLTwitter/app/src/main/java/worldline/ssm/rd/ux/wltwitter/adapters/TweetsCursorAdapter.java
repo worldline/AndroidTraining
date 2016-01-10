@@ -2,6 +2,7 @@ package worldline.ssm.rd.ux.wltwitter.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
+import worldline.ssm.rd.ux.wltwitter.async.DownloadImageAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.components.ImageMemoryCache;
+import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
@@ -69,7 +72,24 @@ public class TweetsCursorAdapter extends CursorAdapter implements View.OnClickLi
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
+        // Retrieve the ViewHolder
+        final ViewHolder holder = (ViewHolder) view.getTag();
+        // Get the tweet from cursor
+        final Tweet tweet = WLTwitterDatabaseManager.tweetFromCursor(cursor);
+        holder.name.setText(tweet.user.name);
+        holder.alias.setText(tweet.user.screenName);
+        holder.text.setText(tweet.text);
+        // Register a listener to handle the click on the button
+        // And keep track of the position in the tag of the button
+        holder.button.setTag(tweet);
+        holder.button.setOnClickListener(this);
+        // Display the images
+        final Bitmap image = mImageMemoryCache.getBitmapFromMemCache(tweet.user.profileImageUrl);
+        if (null == image){
+            new DownloadImageAsyncTask(holder.image, mImageMemoryCache).execute(tweet.user.profileImageUrl);
+        } else {
+            holder.image.setImageBitmap(image);
+        }
     }
 
     @Override
