@@ -18,7 +18,7 @@ import worldline.ssm.rd.ux.wltwitter.components.ImageMemoryCache;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 
-public class TweetsCursorAdapter extends CursorAdapter{
+public class TweetsCursorAdapter extends CursorAdapter implements View.OnClickListener {
     // The cache for images
     private final ImageMemoryCache mImageMemoryCache;
     // The Layout inflater
@@ -70,5 +70,14 @@ public class TweetsCursorAdapter extends CursorAdapter{
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        // If we have a listener set, call the retweet method
+        if (null != mListener){
+            final Tweet tweet = (Tweet) view.getTag();
+            mListener.onRetweet(tweet);
+        }
     }
 }
