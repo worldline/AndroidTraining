@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -27,6 +28,7 @@ import worldline.ssm.rd.ux.wltwitter.R;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterActivity;
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
 import worldline.ssm.rd.ux.wltwitter.adapters.TweetsAdapter;
+import worldline.ssm.rd.ux.wltwitter.adapters.TweetsCursorAdapter;
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseContract;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
@@ -48,6 +50,9 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
 
     // Keep a reference to our Activiyt (implementing TweetListener)
     private TweetListener mListener;
+
+    // Our adapter
+    private TweetsCursorAdapter mAdapter;
 
     public TweetsFragment() {
         // Required empty public constructor
@@ -74,9 +79,11 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
         // Add the view in our content view
         ViewGroup root = (ViewGroup) rootView.findViewById(R.id.tweetsRootRelativeLayout);
         root.addView(progressBar);
-
-        // Set adapter with no elements to let the ListView display the empty view
-        mListView.setAdapter(new ArrayAdapter<Tweet>(getActivity(), android.R.layout.simple_list_item_1, new ArrayList<Tweet>()));
+		
+		// Set adapter with no elements to let the ListView display the empty view
+        mAdapter = new TweetsCursorAdapter(getActivity(), null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        mAdapter.setTweetListener(mListener);
+        mListView.setAdapter(mAdapter);
 
         // Add a listener when an item is clicked
         mListView.setOnItemClickListener(this);
@@ -149,16 +156,9 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null) {
-           while (data.moveToNext())  {
-                final Tweet tweet = WLTwitterDatabaseManager.tweetFromCursor(data);
-                Log.d("TweetsFragment", tweet.toString());
-            }
-
-            if (!data.isClosed()) {
-                data.close();
-            }
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (null != mAdapter){
+            mAdapter.changeCursor(cursor);
         }
     }
 
