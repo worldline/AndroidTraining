@@ -106,10 +106,12 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
 
         // On start launch our AsyncTask to retrieve the Tweets of the user
         final String login = PreferenceUtils.getLogin();
+
+        /* disable RetrieveTweetsAsyncTask
         if (!TextUtils.isEmpty(login)){
             mTweetAsyncTask = new RetrieveTweetsAsyncTask(this);
             mTweetAsyncTask.execute(login);
-        }
+        }*/
 
         //Load data using CursorLoader
         getLoaderManager().initLoader(0, null, this);
