@@ -3,9 +3,11 @@ package worldline.ssm.rd.ux.wltwitter.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import worldline.ssm.rd.ux.wltwitter.WLTwitterApplication;
@@ -128,5 +130,57 @@ public class WLTwitterDatabaseManager {
 		WLTwitterApplication.getContext().getContentResolver().delete(
 				WLTwitterDatabaseContract.TWEETS_URI, null, null);
 	}
+
+	public static synchronized int insertTweet(Tweet tweet){
+		if (null != tweet){
+			if (!doesContainTweet(tweet)){
+				final Uri uri = WLTwitterApplication.getContext().getContentResolver().insert(
+						WLTwitterDatabaseContract.TWEETS_URI, tweetToContentValues(tweet));
+				if (null != uri){
+					return Integer.parseInt(uri.getLastPathSegment());
+				} else {
+					return -1;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static synchronized List<Tweet> getStoredTweets(){
+		final List<Tweet> tweets = new ArrayList<Tweet>();
+		final Cursor cursor = WLTwitterApplication.getContext().getContentResolver().query(
+				WLTwitterDatabaseContract.TWEETS_URI, WLTwitterDatabaseContract.PROJECTION_FULL, null, null, null);
+		if (null != cursor){
+			while (cursor.moveToNext()){
+				tweets.add(tweetFromCursor(cursor));
+			}
+		}
+		if ((null != cursor) && (!cursor.isClosed())) {
+			cursor.close();
+		}
+		return tweets;
+	}
+
+	public static synchronized void dropDatabase(){
+		WLTwitterApplication.getContext().getContentResolver().delete(
+				WLTwitterDatabaseContract.TWEETS_URI, null, null);
+	}
+
+	private static synchronized boolean doesContainTweet(Tweet tweet){
+		boolean result = false;
+		if ((null != tweet) && (!TextUtils.isEmpty(tweet.dateCreated))){
+			final Cursor cursor = WLTwitterApplication.getContext().getContentResolver().query(
+					WLTwitterDatabaseContract.TWEETS_URI, WLTwitterDatabaseContract.PROJECTION_FULL,
+					WLTwitterDatabaseContract.SELECTION_BY_CREATION_DATE, new String[]{tweet.dateCreated}, null);
+			if ((null != cursor) && (cursor.moveToFirst())) {
+				result = true;
+			}
+			if ((null != cursor) && (!cursor.isClosed())) {
+				cursor.close();
+			}
+		}
+		return result;
+	}
+
 
 }
