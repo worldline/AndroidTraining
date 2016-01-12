@@ -141,7 +141,8 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
     @Override
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
         if (null != mListener){
-            final Tweet tweet = (Tweet) adapter.getItemAtPosition(position);
+            final TweetsCursorAdapter.ViewHolder holder = (TweetsCursorAdapter.ViewHolder) view.getTag();
+            final Tweet tweet = (Tweet) holder.button.getTag();
             mListener.onViewTweet(tweet);
         }
     }
