@@ -2,6 +2,7 @@ package worldline.ssm.rd.ux.wltwitter.providers;
 
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -9,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseContract;
 import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseHelper;
@@ -25,6 +28,9 @@ public class WLTwitterDatabaseProvider extends ContentProvider{
     // The URI matcher code for correct result
     private static final int TWEET_CORRECT_URI_CODE = 42;
 
+    // Use a Lock to be thread-safe
+    private final ReentrantLock mLock = new ReentrantLock();
+
     @Override
     public boolean onCreate() {
         mDBHelper = new WLTwitterDatabaseHelper(getContext());
@@ -34,18 +40,19 @@ public class WLTwitterDatabaseProvider extends ContentProvider{
         return true;
     }
 
-    @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Log.i(Constants.General.LOG_TAG, "QUERY");
         if (mUriMatcher.match(uri) == TWEET_CORRECT_URI_CODE){
+            mLock.lock();
             try {
                 SQLiteDatabase db = mDBHelper.getReadableDatabase();
-                Cursor c = db.query(WLTwitterDatabaseContract.TABLE_TWEETS, projection, selection, selectionArgs, null, null, WLTwitterDatabaseContract.ORDER_BY_DATE_CREATED_TIMESTAMP_DESCENDING);
-                //c.setNotificationUri(getContext().getContentResolver(), uri);
+                Cursor c = db.query(WLTwitterDatabaseContract.TABLE_TWEETS, projection, selection, selectionArgs, null, null, sortOrder);
+                c.setNotificationUri(getContext().getContentResolver(), uri);
                 return c;
             } catch (Exception e){
                 return null;
+            } finally {
+                mLock.unlock();
             }
         }
         return null;
@@ -60,22 +67,60 @@ public class WLTwitterDatabaseProvider extends ContentProvider{
         throw new IllegalArgumentException("Unknown URI " + uri);
     }
 
-    @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        Log.e(Constants.General.LOG_TAG, "INSERT");
+        if ((mUriMatcher.match(uri) == TWEET_CORRECT_URI_CODE) && (null != values)){
+            mLock.lock();
+            try {
+                final SQLiteDatabase db = mDBHelper.getWritableDatabase();
+                final long rowId = db.insert(WLTwitterDatabaseContract.TABLE_TWEETS, "", values);
+                if (rowId > 0) {
+                    final Uri applicationUri = ContentUris.withAppendedId(WLTwitterDatabaseContract.TWEETS_URI, rowId);
+                    getContext().getContentResolver().notifyChange(applicationUri, null);
+                    return applicationUri;
+                }
+            } catch (Exception e){
+                return null;
+            } finally {
+                mLock.unlock();
+            }
+        }
         return null;
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        Log.e(Constants.General.LOG_TAG, "DELETE");
+    public int delete(Uri uri, String where, String[] whereArgs) {
+        if (mUriMatcher.match(uri) == TWEET_CORRECT_URI_CODE){
+            mLock.lock();
+            try {
+                final SQLiteDatabase db = mDBHelper.getWritableDatabase();
+                final int count = db.delete(WLTwitterDatabaseContract.TABLE_TWEETS, where, whereArgs);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return count;
+            } catch (Exception e){
+                return 0;
+            } finally {
+                mLock.unlock();
+            }
+        }
         return 0;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        Log.e(Constants.General.LOG_TAG, "UPDATE");
+        if ((mUriMatcher.match(uri) == TWEET_CORRECT_URI_CODE) && (null != values)){
+            mLock.lock();
+            try {
+                SQLiteDatabase db = mDBHelper.getWritableDatabase();
+                int count = db.update(WLTwitterDatabaseContract.TABLE_TWEETS, values, selection, selectionArgs);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return count;
+            } catch (Exception e){
+                return 0;
+            } finally {
+                mLock.unlock();
+            }
+        }
         return 0;
     }
 }
