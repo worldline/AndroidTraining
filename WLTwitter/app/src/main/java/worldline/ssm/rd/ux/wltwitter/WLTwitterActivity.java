@@ -11,6 +11,7 @@ import android.widget.Toast;
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
+import worldline.ssm.rd.ux.wltwitter.services.TweetService;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetFragment;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetsFragment;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
@@ -97,4 +98,16 @@ public class WLTwitterActivity extends Activity implements TweetListener {
         transaction.addToBackStack(null).commit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final Intent serviceIntent = new Intent(this, TweetService.class);
+        startService(serviceIntent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }
