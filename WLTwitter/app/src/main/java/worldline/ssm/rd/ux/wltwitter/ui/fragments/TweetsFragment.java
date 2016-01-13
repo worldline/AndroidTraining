@@ -40,7 +40,7 @@ import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TweetsFragment extends Fragment implements TweetChangeListener, AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class TweetsFragment extends Fragment implements AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     // Keep a reference to the AsyncTask
     private RetrieveTweetsAsyncTask mTweetAsyncTask;
@@ -107,25 +107,8 @@ public class TweetsFragment extends Fragment implements TweetChangeListener, Ada
         // On start launch our AsyncTask to retrieve the Tweets of the user
         final String login = PreferenceUtils.getLogin();
 
-        /* disable RetrieveTweetsAsyncTask
-        if (!TextUtils.isEmpty(login)){
-            mTweetAsyncTask = new RetrieveTweetsAsyncTask(this);
-            mTweetAsyncTask.execute(login);
-        }*/
-
         //Load data using CursorLoader
         getLoaderManager().initLoader(0, null, this);
-    }
-
-    @Override
-    public void onTweetRetrieved(List<Tweet> tweets) {
-        // Set the adapter
-        final TweetsAdapter adapter = new TweetsAdapter(tweets);
-        adapter.setTweetListener(mListener);
-        mListView.setAdapter(adapter);
-        // Set our asynctask to null
-        mTweetAsyncTask = null;
-
     }
 
     @Override
