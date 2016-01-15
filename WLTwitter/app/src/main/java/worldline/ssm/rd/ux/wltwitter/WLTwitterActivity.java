@@ -1,12 +1,17 @@
 package worldline.ssm.rd.ux.wltwitter;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
@@ -19,6 +24,9 @@ import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 
 public class WLTwitterActivity extends Activity implements TweetListener {
+
+    // The PendingIntent to call service
+    private PendingIntent mServicePendingIntent;
 
     // Keep a reference to the AsyncTask
     private RetrieveTweetsAsyncTask mTweetAsyncTask;
@@ -102,12 +110,20 @@ public class WLTwitterActivity extends Activity implements TweetListener {
     protected void onResume() {
         super.onResume();
 
+        // Schedule service to run every xx seconds (defined in Constants.Twitter.POLLING_DELAY)
+        final Calendar cal = Calendar.getInstance();
         final Intent serviceIntent = new Intent(this, TweetService.class);
-        startService(serviceIntent);
+        mServicePendingIntent = PendingIntent.getService(this, 0, serviceIntent, 0);
+        final AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), Constants.Twitter.POLLING_DELAY, mServicePendingIntent);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Cancel the service repetition
+        final AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(mServicePendingIntent);
     }
 }
