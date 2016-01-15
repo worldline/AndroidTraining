@@ -8,6 +8,9 @@ public class Constants {
 	
 	public class Login {
 		public static final String EXTRA_LOGIN = "extraLogin";
+
+		public static final String ACTION_NEW_TWEETS = "newTweetsAction";
+		public static final String ACTION_NEW_TWEETS_EXTRA_NB_TWEETS = "nbNewTweets";
 	}
 	
 	public class Preferences {
