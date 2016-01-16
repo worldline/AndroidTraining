@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import worldline.ssm.rd.ux.wltwitter.services.TweetService;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetFragment;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetsFragment;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
+import worldline.ssm.rd.ux.wltwitter.utils.NotificationsUtils;
 import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 
@@ -27,6 +30,9 @@ public class WLTwitterActivity extends Activity implements TweetListener {
 
     // The PendingIntent to call service
     private PendingIntent mServicePendingIntent;
+
+    // The receiver for new tweets
+    private NewTweetsReceiver mReceiver;
 
     // Keep a reference to the AsyncTask
     private RetrieveTweetsAsyncTask mTweetAsyncTask;
@@ -110,6 +116,10 @@ public class WLTwitterActivity extends Activity implements TweetListener {
     protected void onResume() {
         super.onResume();
 
+        // Register a receiver when new Tweets are downloaded
+        mReceiver = new NewTweetsReceiver();
+        registerReceiver(mReceiver, new IntentFilter(Constants.General.ACTION_NEW_TWEETS));
+
         // Schedule service to run every xx seconds (defined in Constants.Twitter.POLLING_DELAY)
         final Calendar cal = Calendar.getInstance();
         final Intent serviceIntent = new Intent(this, TweetService.class);
@@ -122,8 +132,24 @@ public class WLTwitterActivity extends Activity implements TweetListener {
     protected void onPause() {
         super.onPause();
 
+        // Unregister our receiver
+        unregisterReceiver(mReceiver);
+        mReceiver = null;
+
         // Cancel the service repetition
         final AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(mServicePendingIntent);
+    }
+
+    private class NewTweetsReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final int nbNewTweets = intent.getExtras().getInt(Constants.General.ACTION_NEW_TWEETS_EXTRA_NB_TWEETS);
+
+            // Display a notification
+            NotificationsUtils.displayNewTweetsNotification(nbNewTweets, true, true);
+        }
+
     }
 }
