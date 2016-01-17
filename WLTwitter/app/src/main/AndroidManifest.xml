@@ -3,6 +3,7 @@
     package="worldline.ssm.rd.ux.wltwitter">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".WLTwitterApplication"
