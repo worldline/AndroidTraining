@@ -46,6 +46,15 @@ public class TweetService extends Service implements TweetChangeListener {
             }
         }
 
+        // If we inserted at least one tweet, broadcast a message
+        if (nbTweetInserted > 0){
+            final Intent newTweetsIntent = new Intent(Constants.General.ACTION_NEW_TWEETS);
+            final Bundle extras = new Bundle();
+            extras.putInt(Constants.General.ACTION_NEW_TWEETS_EXTRA_NB_TWEETS, nbTweetInserted);
+            newTweetsIntent.putExtras(extras);
+            sendBroadcast(newTweetsIntent);
+        }
+
         stopSelf();
     }
 }
