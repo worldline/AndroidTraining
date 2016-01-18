@@ -15,15 +15,15 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.database.WLTwitterDatabaseManager;
 import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
 import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import worldline.ssm.rd.ux.wltwitter.services.TweetService;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetFragment;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetsFragment;
-import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 import worldline.ssm.rd.ux.wltwitter.utils.NotificationsUtils;
 import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
+import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 
 
 public class WLTwitterActivity extends Activity implements TweetListener {
@@ -33,9 +33,6 @@ public class WLTwitterActivity extends Activity implements TweetListener {
 
     // The receiver for new tweets
     private NewTweetsReceiver mReceiver;
-
-    // Keep a reference to the AsyncTask
-    private RetrieveTweetsAsyncTask mTweetAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +77,19 @@ public class WLTwitterActivity extends Activity implements TweetListener {
             // Erase login and password in Preferences
             PreferenceUtils.setLogin(null);
             PreferenceUtils.setPassword(null);
-
             // Finish this activity, and go back to LoginActivity
             finish();
 
             return true;
+        }else  if (id == R.id.actionDropTable) {
+            // Erase login and password in Preferences
+            PreferenceUtils.setLogin(null);
+            PreferenceUtils.setPassword(null);
+            // Erase all datas in database
+            WLTwitterDatabaseManager.dropDatabase();
+            finish();
         }
+
 
         return super.onOptionsItemSelected(item);
     }
