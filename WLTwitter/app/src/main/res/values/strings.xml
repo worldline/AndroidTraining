@@ -6,6 +6,7 @@
     
     <!-- MENU -->
     <string name="action_logout">Logout</string>
+    <string name="action_dropTable">DropTable</string>
 
     <!-- LOGIN -->
     <string name="loginHint">Your Twitter login</string>
