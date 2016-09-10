@@ -12,3 +12,8 @@
 hs_err_pid*
 WLTwitter/app/build/
 WLTwitter/.idea/
+WLTwitter/gradle.properties
+WLTwitter/WLTwitter.iml
+WLTwitter/gradle/wrapper/gradle-wrapper.properties
+WLTwitter/gradlew
+WLTwitter/app/app.iml
