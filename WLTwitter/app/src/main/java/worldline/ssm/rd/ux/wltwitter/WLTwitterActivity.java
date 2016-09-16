@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 
 public class WLTwitterActivity extends Activity {
+
+    // Keep a reference to the AsyncTask
+    private RetrieveTweetsAsyncTask mTweetAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,10 @@ public class WLTwitterActivity extends Activity {
 
                 // Set as ActionBar subtitle
                 getActionBar().setSubtitle(login);
+
+                // On start launch our AsyncTask to retrieve the Tweets of the user
+                mTweetAsyncTask = new RetrieveTweetsAsyncTask();
+                mTweetAsyncTask.execute(login);
             }
         }
     }
