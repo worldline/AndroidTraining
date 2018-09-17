@@ -1,3 +1,4 @@
+
 package ux.rd.ssm.worldline.wltwitter_base;
 
 import android.app.Application;
@@ -10,4 +11,3 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
-}
