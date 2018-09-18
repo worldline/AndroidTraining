@@ -1,16 +1,20 @@
 package worldline.ssm.rd.ux.wltwitter;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetsFragment;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 
 public class WLTwitterActivity extends Activity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +31,15 @@ public class WLTwitterActivity extends Activity {
 
                 // Set as ActionBar subtitle
                 getActionBar().setSubtitle(login);
+
+
             }
         }
+
+
+        getFragmentManager().beginTransaction().add(R.id.container, new TweetsFragment()).commit();
+
+
     }
 
 
@@ -46,7 +57,6 @@ public class WLTwitterActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.actionLogout) {
             // Erase login and password in Preferences
             PreferenceUtils.setLogin(null);
@@ -54,6 +64,7 @@ public class WLTwitterActivity extends Activity {
 
             // Finish this activity, and go back to LoginActivity
             finish();
+
             return true;
         }
 

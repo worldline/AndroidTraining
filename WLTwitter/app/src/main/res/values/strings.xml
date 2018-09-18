@@ -3,7 +3,7 @@
 
     <string name="app_name">WLTwitter_Part1</string>
     <string name="hello_world">Hello world!</string>
-    
+
     <!-- MENU -->
     <string name="action_logout">Logout</string>
 
@@ -14,4 +14,7 @@
     <string name="error_no_login">Empty login !</string>
     <string name="error_no_password">Empty password !</string>
     <string name="action_settings">Title!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
