@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_round_corners_background"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="@dimen/tweet_list_item_padding"
+    >
+
+    <ImageView
+        android:id="@+id/tweetListItemImageView"
+        android:layout_width="@dimen/tweet_list_item_image_size"
+        android:layout_height="@dimen/tweet_list_item_image_size"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/tweet_list_item_margin_between_views"
+        android:layout_marginRight="@dimen/tweet_list_item_margin_between_views"
+        android:background="#FFFFFFFF"
+        android:src="@drawable/twitter_bird"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:id="@+id/tweetListItemAliasTextView"
+        android:layout_width="@dimen/tweet_list_item_alias_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tweetListItemImageView"
+        android:layout_marginLeft="@dimen/tweet_list_item_margin_between_views"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tweetListItemNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tweetListItemImageView"
+        android:layout_toLeftOf="@+id/tweetListItemAliasTextView"
+        android:layout_toRightOf="@+id/tweetListItemImageView"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/tweetListItemButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tweetListItemImageView"
+        android:layout_alignRight="@+id/tweetListItemImageView"
+        android:layout_below="@+id/tweetListItemImageView"
+        android:background="@drawable/white_blue_round_corners_selector"
+        android:text="@string/tweet_list_item_button_text"
+        android:textColor="@drawable/blue_white_text_selector" />
+
+    <TextView
+        android:id="@+id/tweetListItemTweetTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tweetListItemNameTextView"
+        android:layout_alignRight="@+id/tweetListItemAliasTextView"
+        android:layout_below="@+id/tweetListItemNameTextView"
+        android:layout_marginTop="@dimen/tweet_list_item_margin_between_views"
+        android:singleLine="false"
+        android:textColorLink="@color/orange_twitter"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+</RelativeLayout>

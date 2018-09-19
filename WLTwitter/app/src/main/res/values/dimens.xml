@@ -13,4 +13,17 @@
     <dimen name="login_center_panel_right_margin">30dp</dimen>
     <dimen name="login_center_panel_top_margin">100dp</dimen>
     <dimen name="login_center_panel_content_top_margin">10dp</dimen>
+
+    <!-- TWEET LIST ITEM -->
+    <dimen name="tweet_list_item_padding">10dp</dimen>
+    <dimen name="tweet_list_item_margin">5dp</dimen>
+    <dimen name="tweet_list_item_image_size">50dp</dimen>
+    <dimen name="tweet_list_item_alias_width">100dp</dimen>
+    <dimen name="tweet_list_item_margin_between_views">5dp</dimen>
+
+    <!-- TWEET -->
+    <dimen name="tweet_padding">10dp</dimen>
+    <dimen name="tweet_image_size">100dp</dimen>
+    <dimen name="tweet_button_width">100dp</dimen>
+    <dimen name="tweet_margin_between_views">10dp</dimen>
 </resources>
