@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_twitter"
+    android:padding="@dimen/tweet_padding" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_round_corners_background"
+        android:padding="@dimen/tweet_padding" >
+
+        <ImageView
+            android:id="@+id/tweetImageView"
+            android:layout_width="@dimen/tweet_image_size"
+            android:layout_height="@dimen/tweet_image_size"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/tweet_margin_between_views"
+            android:layout_marginRight="@dimen/tweet_margin_between_views"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/twitter_bird" />
+
+        <TextView
+            android:id="@+id/tweetNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tweetImageView"
+            android:layout_toRightOf="@+id/tweetImageView" />
+
+        <TextView
+            android:id="@+id/tweetAliasTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tweetImageView"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/tweetImageView" />
+
+        <TextView
+            android:id="@+id/tweetTextTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tweetImageView"
+            android:layout_marginBottom="@dimen/tweet_margin_between_views" />
+
+        <Button
+            android:id="@+id/tweetReplyButton"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tweetTextTextView"
+            android:background="@drawable/blue_round_corners_background"
+            android:text="@string/tweet_reply"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/tweetRetweetButton"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tweetReplyButton"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/blue_round_corners_background"
+            android:text="@string/tweet_retweet"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/tweetStarButton"
+            android:layout_width="@dimen/tweet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tweetReplyButton"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/blue_round_corners_background"
+            android:text="@string/tweet_star"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+</RelativeLayout>

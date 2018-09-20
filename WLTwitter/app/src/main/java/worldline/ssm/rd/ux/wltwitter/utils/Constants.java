@@ -24,5 +24,12 @@ public class Constants {
 		public static final String API_SECRET = "YNLBrvGSNXZs4H8Thpjz3isCS6UqAH3u2gyG7zHpBzYhiJLTiW";
 		public static final String DEFAULT_USERNAME = "rd_aw";
 	}
+
+	public class Tweet {
+		public static final String EXTRA_IMAGEURL = "extraImageUrl";
+		public static final String EXTRA_NAME = "extraName";
+		public static final String EXTRA_ALIAS = "extraAlias";
+		public static final String EXTRA_TEXT = "extraText";
+	}
 	
 }
