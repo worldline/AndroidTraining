@@ -6,14 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import worldline.ssm.rd.ux.wltwitter.async.RetrieveTweetsAsyncTask;
+import worldline.ssm.rd.ux.wltwitter.interfaces.TweetListener;
+import worldline.ssm.rd.ux.wltwitter.pojo.Tweet;
 import worldline.ssm.rd.ux.wltwitter.ui.fragments.TweetsFragment;
 import worldline.ssm.rd.ux.wltwitter.utils.Constants;
 import worldline.ssm.rd.ux.wltwitter.utils.PreferenceUtils;
 
 
-public class WLTwitterActivity extends Activity {
+public class WLTwitterActivity extends Activity implements TweetListener {
 
 
     @Override
@@ -69,5 +72,15 @@ public class WLTwitterActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRetweet(Tweet tweet) {
+        Toast.makeText(this, tweet.text, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onViewTweet(Tweet tweet) {
+        Toast.makeText(this, "onViewTweet:"+ tweet.text, Toast.LENGTH_LONG).show();
     }
 }
